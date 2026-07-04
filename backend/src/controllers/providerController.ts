@@ -1,13 +1,37 @@
 import { Response } from 'express';
 import prisma from '../config/database';
+import { generateAvailableSlots } from '../services/bookingService';
 import { AuthRequest, ForbiddenError, NotFoundError } from '../types';
 import {
   getParamId,
+  slotsQuerySchema,
   updateProviderSchema,
   UpdateProviderInput,
   validateBody,
+  validateQuery,
 } from '../utils/validation';
 import { getProviderProfileByUserId, serializeService } from '../utils/serviceHelpers';
+
+export async function getProviderSlots(req: AuthRequest, res: Response): Promise<void> {
+  const providerId = getParamId(req.params, 'Provider');
+  const { date, serviceId } = validateQuery(slotsQuerySchema, req.query);
+
+  const provider = await prisma.providerProfile.findUnique({
+    where: { id: providerId },
+    select: { id: true },
+  });
+
+  if (!provider) {
+    throw new NotFoundError('Provider not found');
+  }
+
+  const slots = await generateAvailableSlots(providerId, serviceId, date);
+
+  res.json({
+    success: true,
+    data: { date, serviceId, slots },
+  });
+}
 
 export async function getProvider(req: AuthRequest, res: Response): Promise<void> {
   const id = getParamId(req.params, 'Provider');

@@ -68,10 +68,25 @@ export const updateProviderSchema = z
     message: 'At least one field must be provided',
   });
 
+export const slotsQuerySchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
+  serviceId: z.string().min(1, 'Service ID is required'),
+});
+
+export const createBookingSchema = z.object({
+  serviceId: z.string().min(1, 'Service ID is required'),
+  startTime: z.string().datetime({ message: 'startTime must be a valid ISO datetime' }),
+});
+
+export const bookingStatusSchema = z.object({
+  status: z.enum(['CONFIRMED', 'CANCELLED', 'COMPLETED']),
+});
+
 export type ServiceCreateInput = z.infer<typeof serviceCreateSchema>;
 export type ServiceUpdateInput = z.infer<typeof serviceUpdateSchema>;
 export type UpdateProviderInput = z.infer<typeof updateProviderSchema>;
 export type PaginationInput = z.infer<typeof paginationSchema>;
+export type CreateBookingInput = z.infer<typeof createBookingSchema>;
 
 export function validateBody<T>(schema: z.ZodSchema<T>, body: unknown): T {
   const parsed = schema.safeParse(body);
