@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import authRoutes from './auth';
+import providerRoutes from './providers';
+import serviceRoutes from './services';
 
 const router = Router();
 
@@ -12,6 +14,8 @@ router.get('/health', (_req, res) => {
 });
 
 router.use('/auth', authRoutes);
+router.use('/services', serviceRoutes);
+router.use('/providers', providerRoutes);
 
 router.use((_req, res) => {
   res.status(404).json({ success: false, error: 'Route not found', message: 'Route not found' });
