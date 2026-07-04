@@ -7,6 +7,8 @@
     "dev": "ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
@@ -32,11 +34,14 @@
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
+    "@types/supertest": "^6.0.3",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/nodemailer": "^6.4.17",
     "@types/node": "^22.15.30",
     "prisma": "^6.9.0",
+    "supertest": "^7.1.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }

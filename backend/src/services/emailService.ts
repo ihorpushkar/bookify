@@ -23,7 +23,7 @@ async function getTransporter(): Promise<Transporter> {
 
   const account = await nodemailer.createTestAccount();
 
-  if (!etherealAccountLogged) {
+  if (!etherealAccountLogged && !env.isProduction) {
     console.log(`Ethereal email (dev): ${account.user}`);
     etherealAccountLogged = true;
   }
@@ -59,7 +59,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 
   const previewUrl = nodemailer.getTestMessageUrl(info);
 
-  if (previewUrl) {
+  if (previewUrl && !env.isProduction) {
     console.log(`Email preview: ${previewUrl}`);
   }
 }
