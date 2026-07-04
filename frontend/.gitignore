@@ -1,4 +1,19 @@
 node_modules/
 dist/
+build/
+*.tsbuildinfo
+
+# Secrets
 .env
+.env.*
+!.env.example
+!.env*.example
 .env.local
+.env.*.local
+
+# Vite
+.vite/
+
+# Logs & coverage
+*.log
+coverage/

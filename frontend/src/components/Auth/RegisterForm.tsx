@@ -68,7 +68,8 @@ export function RegisterForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={inputClass}
-          minLength={6}
+          minLength={8}
+          maxLength={128}
           required
           disabled={loading}
         />

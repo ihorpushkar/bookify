@@ -57,6 +57,21 @@ export default function ProviderPage() {
       .finally(() => setSlotsLoading(false));
   }, [id, selectedService, date]);
 
+  const handleDateChange = (value: string) => {
+    if (!value) {
+      setDate('');
+      return;
+    }
+
+    const [year] = value.split('-');
+    if (year.length > 4) return;
+
+    const yearNum = Number(year);
+    if (yearNum < 1000 || yearNum > 9999) return;
+
+    setDate(value);
+  };
+
   const handleBook = async () => {
     if (!selectedService || !selectedSlot) return;
 
@@ -154,7 +169,8 @@ export default function ProviderPage() {
                     type="date"
                     value={date}
                     min={format(new Date(), 'yyyy-MM-dd')}
-                    onChange={(e) => setDate(e.target.value)}
+                    max="9999-12-31"
+                    onChange={(e) => handleDateChange(e.target.value)}
                     className={inputClass}
                   />
                 </div>

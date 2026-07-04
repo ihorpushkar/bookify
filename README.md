@@ -19,30 +19,29 @@ Clients browse services, pick a time slot, and book appointments. Providers mana
 book-site/
 ├── backend/          # Express API
 ├── frontend/         # React app
-├── docker-compose.yml
 └── README.md
 ```
 
 ## Prerequisites
 
 - Node.js 20+
-- Docker (for local PostgreSQL)
+- Hosted PostgreSQL (e.g. [Neon](https://neon.tech) or [Railway](https://railway.com))
 
 ## Quick start
 
-### 1. Start PostgreSQL
+### 1. Database
 
-```bash
-docker compose up -d
-```
+1. Create a PostgreSQL database on Neon or Railway
+2. Copy `DATABASE_URL` from the provider dashboard
+3. Paste it into `backend/.env` (see `.env.example`)
 
 ### 2. Backend
 
 ```bash
 cd backend
-cp .env.example .env
+cp .env.example .env   # then set DATABASE_URL from your provider
 npm install
-npm run db:migrate    # or: npm run db:push (dev only)
+npm run db:migrate
 npm run db:seed
 npm run dev
 ```
@@ -68,7 +67,7 @@ App runs at `http://localhost:5173`
 |----------|-------------|
 | `PORT` | API port (default `3000`) |
 | `DATABASE_URL` | PostgreSQL connection string |
-| `JWT_SECRET` | Min 32 characters |
+| `JWT_SECRET` | Min 32 characters — generate with `openssl rand -base64 48` |
 | `JWT_EXPIRES_IN` | Access token TTL (default `15m`) |
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token TTL (default `7d`) |
 | `CORS_ORIGIN` | Frontend URL (default `http://localhost:5173`) |

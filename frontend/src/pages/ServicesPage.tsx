@@ -11,12 +11,20 @@ import { showError } from '../utils/toast';
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     servicesAPI
       .list(1, 20)
-      .then((res) => setServices(res.data.data))
-      .catch((err) => showError(getErrorMessage(err)))
+      .then((res) => {
+        setServices(res.data.data);
+        setLoadError(null);
+      })
+      .catch((err) => {
+        const message = getErrorMessage(err);
+        setLoadError(message);
+        showError(message);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -33,6 +41,11 @@ export default function ServicesPage() {
             <Skeleton key={i} className="h-40" />
           ))}
         </div>
+      ) : loadError ? (
+        <EmptyState
+          title="Could not load services"
+          description={`${loadError}. Check DATABASE_URL in backend/.env and run: cd backend && npm run dev`}
+        />
       ) : services.length === 0 ? (
         <EmptyState title="No services yet" description="Check back later or register as a provider." />
       ) : (

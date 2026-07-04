@@ -29,5 +29,3 @@ process.on('SIGTERM', async () => {
   await disconnectDatabase();
   process.exit(0);
 });
-
-export default app;

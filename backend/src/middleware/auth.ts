@@ -40,7 +40,6 @@ export async function authenticate(
 
     req.userId = userId;
     req.userRole = dbUser.role;
-    req.user = { userId: dbUser.id, role: dbUser.role };
 
     next();
   } catch {

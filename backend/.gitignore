@@ -1,3 +1,13 @@
 node_modules/
 dist/
+build/
+*.tsbuildinfo
+
+# Secrets
 .env
+.env.*
+!.env.example
+
+# Logs & coverage
+*.log
+coverage/

@@ -6,10 +6,22 @@ function requireEnv(name: string): string {
   return value;
 }
 
+const WEAK_JWT_SECRETS = new Set([
+  'change-me-to-a-random-secret-key-min-32-chars',
+  'test-jwt-secret-key-minimum-32-characters',
+]);
+
 export function validateEnv(): void {
   const jwtSecret = requireEnv('JWT_SECRET');
   if (jwtSecret.length < 32) {
     throw new Error('JWT_SECRET must be at least 32 characters');
+  }
+
+  if (WEAK_JWT_SECRETS.has(jwtSecret)) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('JWT_SECRET must be set to a unique random value in production');
+    }
+    console.warn('[security] JWT_SECRET uses a default placeholder — change it before deploy');
   }
 
   requireEnv('DATABASE_URL');
