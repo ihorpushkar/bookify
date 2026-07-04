@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bookify-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: bookify
+      POSTGRES_PASSWORD: bookify
+      POSTGRES_DB: bookify
+    volumes:
+      - bookify_pg_data:/var/lib/postgresql/data
+
+volumes:
+  bookify_pg_data:
