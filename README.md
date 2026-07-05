@@ -2,8 +2,6 @@
 
 Service booking platform — a fullstack pet project for learning and portfolio.
 
-**Repo:** [github.com/ihorpushkar/bookify](https://github.com/ihorpushkar/bookify)
-
 Clients browse services, pick a time slot, and book appointments. Providers manage services, working hours, and incoming bookings.
 
 ## Features
